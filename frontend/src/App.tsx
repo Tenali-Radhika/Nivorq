@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, FolderGit2, Video, CheckSquare, BarChart3, ShieldCheck, Zap } from 'lucide-react';
+import { MessageSquare, FolderGit2, Video, CheckSquare, BarChart3 } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { SettingsModal } from './components/SettingsModal';
 import { CitationDrawer } from './components/CitationDrawer';
@@ -154,7 +154,7 @@ export const App: React.FC = () => {
       const errorMsg: ChatMessage = {
         id: `msg-err-${Date.now()}`,
         role: 'assistant',
-        content: `### ⚠️ Connection Error\n\nUnable to reach the backend service. Please verify that the FastAPI backend server is active.`,
+        content: `### ⚠️ Connection Notice\n\nUnable to reach the backend service. Please verify that the server is active.`,
         timestamp: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -202,7 +202,7 @@ export const App: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] flex flex-col selection:bg-cyan-500 selection:text-white">
+    <div className="app-container">
       {/* Top Navbar */}
       <Navbar
         health={health}
@@ -211,9 +211,9 @@ export const App: React.FC = () => {
         resetting={resetting}
       />
 
-      {/* Primary Tab Navigation */}
-      <div className="border-b border-[var(--border-subtle)] bg-[rgba(13,18,29,0.7)] backdrop-blur-md px-6 py-2.5 sticky top-[69px] z-30">
-        <div className="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto">
+      {/* Tab Navigation */}
+      <nav className="tab-navbar">
+        <div className="tab-nav-wrapper">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -221,29 +221,21 @@ export const App: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition whitespace-nowrap ${
-                  isActive
-                    ? 'bg-gradient-to-r from-cyan-500/20 to-blue-600/20 text-cyan-300 border border-cyan-500/40 shadow-sm shadow-cyan-500/10'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-900/60 border border-transparent'
-                }`}
+                className={`tab-btn ${isActive ? 'active' : ''}`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-cyan-400' : 'text-slate-400'}`} />
+                <Icon style={{ width: 15, height: 15 }} />
                 <span>{tab.label}</span>
                 {tab.badge !== undefined && (
-                  <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
-                    isActive ? 'bg-cyan-500/20 text-cyan-300' : 'bg-slate-800 text-slate-400'
-                  }`}>
-                    {tab.badge}
-                  </span>
+                  <span className="tab-badge">{tab.badge}</span>
                 )}
               </button>
             );
           })}
         </div>
-      </div>
+      </nav>
 
-      {/* Main Content Area */}
-      <main className="flex-1 pb-10">
+      {/* Main View Area */}
+      <main style={{ flex: 1, paddingBottom: 40 }}>
         {activeTab === 'copilot' && (
           <CopilotView
             messages={messages}

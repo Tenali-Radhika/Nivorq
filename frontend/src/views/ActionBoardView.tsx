@@ -19,10 +19,10 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = ({ actions, onAct
   const [newDept, setNewDept] = useState('Engineering');
 
   const columns = [
-    { id: 'TODO', label: 'To Do', color: 'border-slate-700 bg-slate-900/40 text-slate-300' },
-    { id: 'IN_PROGRESS', label: 'In Progress', color: 'border-cyan-500/40 bg-cyan-950/20 text-cyan-400' },
-    { id: 'REVIEW', label: 'Under Review', color: 'border-purple-500/40 bg-purple-950/20 text-purple-400' },
-    { id: 'DONE', label: 'Completed', color: 'border-emerald-500/40 bg-emerald-950/20 text-emerald-400' },
+    { id: 'TODO', label: 'To Do', color: '#94a3b8' },
+    { id: 'IN_PROGRESS', label: 'In Progress', color: '#00f2fe' },
+    { id: 'REVIEW', label: 'Under Review', color: '#a855f7' },
+    { id: 'DONE', label: 'Completed', color: '#10b981' },
   ];
 
   const handleMoveAction = async (action: ActionItem, newStatus: ActionItem['status']) => {
@@ -90,128 +90,133 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = ({ actions, onAct
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-6 space-y-6">
+    <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 24px', display: 'flex', flexDirection: 'column', gap: 24 }}>
       
-      {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 glass-panel-glow border border-slate-800 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-indigo-950/30">
+      {/* Top Banner */}
+      <div className="glass-panel-glow" style={{
+        padding: '24px 30px',
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 20,
+        background: 'linear-gradient(135deg, rgba(14,20,34,0.95) 0%, rgba(49,46,129,0.3) 100%)'
+      }}>
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs uppercase font-extrabold tracking-wider px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+            <span className="brand-badge" style={{ background: 'rgba(99, 102, 241, 0.15)', color: '#818cf8', borderColor: 'rgba(99, 102, 241, 0.3)' }}>
               Autonomous Action Board
             </span>
-            <span className="text-xs text-slate-400">Enterprise Workflow Automation</span>
+            <span style={{ fontSize: 11, color: '#94a3b8' }}>Enterprise Workflow Automation</span>
           </div>
-          <h2 className="text-2xl font-extrabold text-white font-['Outfit']">Multi-Department Task Kanban</h2>
-          <p className="text-sm text-slate-300 mt-1 max-w-xl">
+          <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#ffffff' }}>Multi-Department Task Kanban</h2>
+          <p style={{ fontSize: 13, color: '#94a3b8', marginTop: 4, maxWidth: 640 }}>
             Tasks extracted autonomously by the Workflow Agent from meeting minutes, executive directives, and architecture specifications.
           </p>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleExportIcs}
-            className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white transition"
-          >
-            <Calendar className="w-4 h-4 text-cyan-400" />
+        {/* Buttons */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <button onClick={handleExportIcs} className="btn-secondary">
+            <Calendar style={{ width: 14, height: 14, color: '#00f2fe' }} />
             <span>Export Calendar (.ICS)</span>
           </button>
 
-          <button
-            onClick={handleExportJira}
-            className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white transition"
-          >
-            <FileJson className="w-4 h-4 text-purple-400" />
+          <button onClick={handleExportJira} className="btn-secondary">
+            <FileJson style={{ width: 14, height: 14, color: '#c084fc' }} />
             <span>Export Jira JSON</span>
           </button>
 
-          <button
-            onClick={() => setShowNewModal(true)}
-            className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white shadow-lg shadow-cyan-500/20 transition"
-          >
-            <Plus className="w-4 h-4" />
+          <button onClick={() => setShowNewModal(true)} className="btn-primary">
+            <Plus style={{ width: 14, height: 14 }} />
             <span>New Action</span>
           </button>
         </div>
       </div>
 
-      {/* Kanban Board Columns */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      {/* Kanban Grid */}
+      <div className="kanban-grid">
         {columns.map((col) => {
           const colActions = actions.filter((a) => a.status === col.id);
           return (
-            <div
-              key={col.id}
-              className="flex flex-col rounded-2xl glass-panel border border-slate-800/90 bg-slate-950/60 p-4 min-h-[550px]"
-            >
+            <div key={col.id} className="kanban-column">
+              
               {/* Column Header */}
-              <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
-                <div className="flex items-center gap-2">
-                  <span className={`w-2.5 h-2.5 rounded-full ${
-                    col.id === 'DONE' ? 'bg-emerald-400' :
-                    col.id === 'REVIEW' ? 'bg-purple-400' :
-                    col.id === 'IN_PROGRESS' ? 'bg-cyan-400' : 'bg-slate-500'
-                  }`} />
-                  <h3 className="text-sm font-bold text-white font-['Outfit']">{col.label}</h3>
+              <div className="kanban-column-header">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ width: 9, height: 9, borderRadius: '50%', background: col.color }} />
+                  <h3 style={{ fontSize: 14, fontWeight: 700, color: '#ffffff' }}>{col.label}</h3>
                 </div>
-                <span className="px-2 py-0.5 rounded-full bg-slate-800 text-[11px] font-mono font-bold text-slate-300">
-                  {colActions.length}
-                </span>
+                <span className="tab-badge" style={{ padding: '2px 8px' }}>{colActions.length}</span>
               </div>
 
-              {/* Cards Container */}
-              <div className="flex-1 space-y-3 overflow-y-auto pr-1">
+              {/* Cards list */}
+              <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {colActions.map((act) => (
-                  <div
-                    key={act.id}
-                    className="p-4 rounded-xl glass-panel-glow bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 transition-all space-y-3 group"
-                  >
-                    {/* Header info */}
-                    <div className="flex items-center justify-between">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                        act.priority === 'CRITICAL' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
-                        act.priority === 'HIGH' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
-                        'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
-                      }`}>
+                  <div key={act.id} className="kanban-card">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span className="brand-badge" style={{
+                        fontSize: 9,
+                        background: act.priority === 'CRITICAL' ? 'rgba(244, 63, 94, 0.15)' : act.priority === 'HIGH' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(0, 242, 254, 0.15)',
+                        color: act.priority === 'CRITICAL' ? '#f43f5e' : act.priority === 'HIGH' ? '#f59e0b' : '#00f2fe',
+                        borderColor: act.priority === 'CRITICAL' ? 'rgba(244, 63, 94, 0.3)' : act.priority === 'HIGH' ? 'rgba(245, 158, 11, 0.3)' : 'rgba(0, 242, 254, 0.3)'
+                      }}>
                         {act.priority}
                       </span>
-                      <span className="text-[10px] text-slate-400 font-mono flex items-center gap-1">
-                        <Clock className="w-3 h-3" /> {act.due_date}
+                      <span style={{ fontSize: 10.5, color: '#94a3b8', fontFamily: 'var(--font-mono)', display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <Clock style={{ width: 11, height: 11 }} /> {act.due_date}
                       </span>
                     </div>
 
-                    {/* Title */}
-                    <p className="text-xs font-bold text-white leading-snug">
+                    <p style={{ fontSize: 12.5, fontWeight: 700, color: '#ffffff', lineHeight: 1.4 }}>
                       {act.title}
                     </p>
 
-                    {/* Assignee & Dept */}
-                    <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-                      <span className="truncate max-w-[140px] font-medium text-slate-300">{act.assignee}</span>
-                      <span className="text-[10px] text-slate-500 font-mono">{act.department}</span>
+                    <div style={{
+                      paddingTop: 8,
+                      borderTop: '1px solid var(--border-subtle)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      fontSize: 11,
+                      color: '#94a3b8'
+                    }}>
+                      <span style={{ maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 600, color: '#e2e8f0' }}>
+                        {act.assignee}
+                      </span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: '#64748b' }}>
+                        {act.department}
+                      </span>
                     </div>
 
-                    {/* Move Actions / Delete Controls */}
-                    <div className="pt-2 border-t border-slate-800/50 flex items-center justify-between">
+                    {/* Move / Delete Controls */}
+                    <div style={{
+                      paddingTop: 8,
+                      borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}>
                       <button
                         onClick={() => handleDeleteAction(act.id)}
-                        className="text-slate-500 hover:text-rose-400 p-1 rounded transition"
+                        style={{ background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer', padding: 4 }}
                         title="Delete task"
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash2 style={{ width: 14, height: 14 }} />
                       </button>
 
-                      <div className="flex items-center gap-1">
+                      <div style={{ display: 'flex', gap: 6 }}>
                         {col.id !== 'TODO' && (
                           <button
                             onClick={() => {
                               const prevIdx = columns.findIndex(c => c.id === col.id) - 1;
                               if (prevIdx >= 0) handleMoveAction(act, columns[prevIdx].id as any);
                             }}
+                            className="btn-secondary"
+                            style={{ padding: '4px 8px' }}
                             title="Move left"
-                            className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
                           >
-                            <ArrowLeft className="w-3.5 h-3.5" />
+                            <ArrowLeft style={{ width: 12, height: 12 }} />
                           </button>
                         )}
                         {col.id !== 'DONE' && (
@@ -220,10 +225,11 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = ({ actions, onAct
                               const nextIdx = columns.findIndex(c => c.id === col.id) + 1;
                               if (nextIdx < columns.length) handleMoveAction(act, columns[nextIdx].id as any);
                             }}
+                            className="btn-secondary"
+                            style={{ padding: '4px 8px', color: '#00f2fe' }}
                             title="Move right"
-                            className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 transition"
                           >
-                            <ArrowRight className="w-3.5 h-3.5" />
+                            <ArrowRight style={{ width: 12, height: 12 }} />
                           </button>
                         )}
                       </div>
@@ -233,11 +239,21 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = ({ actions, onAct
                 ))}
 
                 {colActions.length === 0 && (
-                  <div className="h-32 flex items-center justify-center border border-dashed border-slate-800 rounded-xl text-slate-600 text-xs">
+                  <div style={{
+                    height: 120,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px dashed var(--border-subtle)',
+                    borderRadius: 12,
+                    color: '#64748b',
+                    fontSize: 12
+                  }}>
                     No tasks
                   </div>
                 )}
               </div>
+
             </div>
           );
         })}
@@ -245,46 +261,50 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = ({ actions, onAct
 
       {/* New Task Modal */}
       {showNewModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
-          <div className="w-full max-w-md glass-panel-glow bg-slate-950/95 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden">
-            <div className="flex items-center justify-between p-5 border-b border-slate-800 bg-slate-900/60">
-              <h3 className="text-base font-bold text-white font-['Outfit']">Create New Action Item</h3>
-              <button onClick={() => setShowNewModal(false)} className="p-1 text-slate-400 hover:text-white">
-                <X className="w-5 h-5" />
+        <div className="modal-overlay">
+          <div className="modal-box" style={{ maxWidth: 460 }}>
+            <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: '#ffffff' }}>Create New Action Item</h3>
+              <button onClick={() => setShowNewModal(false)} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>
+                <X style={{ width: 18, height: 18 }} />
               </button>
             </div>
 
-            <form onSubmit={handleCreateTask} className="p-6 space-y-4">
+            <form onSubmit={handleCreateTask} style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Task Title</label>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#94a3b8', marginBottom: 6 }}>
+                  Task Title
+                </label>
                 <input
                   type="text"
                   required
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="e.g. Verify KMS encryption key rotation"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-400"
+                  style={{ width: '100%', padding: '10px 14px', borderRadius: 10, background: '#0d1322', border: '1px solid var(--border-subtle)', color: '#ffffff', fontSize: 12.5, outline: 'none' }}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Assignee</label>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#94a3b8', marginBottom: 6 }}>
+                  Assignee
+                </label>
                 <input
                   type="text"
                   value={newAssignee}
                   onChange={(e) => setNewAssignee(e.target.value)}
                   placeholder="e.g. Dr. Elena Vance"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-400"
+                  style={{ width: '100%', padding: '10px 14px', borderRadius: 10, background: '#0d1322', border: '1px solid var(--border-subtle)', color: '#ffffff', fontSize: 12.5, outline: 'none' }}
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Priority</label>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#94a3b8', marginBottom: 6 }}>Priority</label>
                   <select
                     value={newPriority}
                     onChange={(e) => setNewPriority(e.target.value as any)}
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none"
+                    style={{ width: '100%', padding: '9px 12px', borderRadius: 10, background: '#0d1322', border: '1px solid var(--border-subtle)', color: '#ffffff', fontSize: 12, outline: 'none' }}
                   >
                     <option value="CRITICAL">CRITICAL</option>
                     <option value="HIGH">HIGH</option>
@@ -293,39 +313,32 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = ({ actions, onAct
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Due Date</label>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#94a3b8', marginBottom: 6 }}>Due Date</label>
                   <input
                     type="date"
                     value={newDueDate}
                     onChange={(e) => setNewDueDate(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none"
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: 10, background: '#0d1322', border: '1px solid var(--border-subtle)', color: '#ffffff', fontSize: 12, outline: 'none' }}
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Department</label>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#94a3b8', marginBottom: 6 }}>Department</label>
                 <input
                   type="text"
                   value={newDept}
                   onChange={(e) => setNewDept(e.target.value)}
                   placeholder="e.g. Engineering"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-400"
+                  style={{ width: '100%', padding: '10px 14px', borderRadius: 10, background: '#0d1322', border: '1px solid var(--border-subtle)', color: '#ffffff', fontSize: 12.5, outline: 'none' }}
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setShowNewModal(false)}
-                  className="px-4 py-2 rounded-xl text-xs text-slate-400 hover:text-white"
-                >
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 10 }}>
+                <button type="button" onClick={() => setShowNewModal(false)} className="btn-secondary">
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs font-semibold shadow-md"
-                >
+                <button type="submit" className="btn-primary">
                   Create Task
                 </button>
               </div>
@@ -334,29 +347,29 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = ({ actions, onAct
         </div>
       )}
 
-      {/* Jira Payload Modal */}
+      {/* Jira Modal */}
       {showJiraModal && jiraPayload && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
-          <div className="w-full max-w-2xl glass-panel-glow bg-slate-950/95 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
-            <div className="flex items-center justify-between p-5 border-b border-slate-800 bg-slate-900/60">
+        <div className="modal-overlay">
+          <div className="modal-box" style={{ maxWidth: 640 }}>
+            <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <h3 className="text-base font-bold text-white font-['Outfit']">Jira Bulk Issue Payload</h3>
-                <p className="text-xs text-slate-400">Atlassian REST API Compliant Structure</p>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#ffffff' }}>Atlassian Jira REST API Payload</h3>
+                <p style={{ fontSize: 11, color: '#94a3b8' }}>Bulk issue creation schema for Jira Cloud / Data Center</p>
               </div>
-              <button onClick={() => setShowJiraModal(false)} className="p-1 text-slate-400 hover:text-white">
-                <X className="w-5 h-5" />
+              <button onClick={() => setShowJiraModal(false)} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>
+                <X style={{ width: 18, height: 18 }} />
               </button>
             </div>
-            <div className="p-5 overflow-y-auto font-mono text-xs text-cyan-200 bg-slate-950/60">
+            <div style={{ padding: 20, maxHeight: 360, overflowY: 'auto', background: '#070b14', fontFamily: 'var(--font-mono)', fontSize: 11.5, color: '#00f2fe' }}>
               <pre>{JSON.stringify(jiraPayload, null, 2)}</pre>
             </div>
-            <div className="p-4 border-t border-slate-800 flex justify-end">
+            <div style={{ padding: '14px 24px', borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'flex-end' }}>
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(JSON.stringify(jiraPayload, null, 2));
                   alert('Copied Jira payload to clipboard!');
                 }}
-                className="px-4 py-2 text-xs font-semibold rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30 transition"
+                className="btn-primary"
               >
                 Copy JSON Payload
               </button>

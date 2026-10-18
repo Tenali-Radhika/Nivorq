@@ -69,26 +69,34 @@ export const MeetingStudioView: React.FC<MeetingStudioViewProps> = ({ onAddActio
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-6 space-y-8">
+    <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 24px', display: 'flex', flexDirection: 'column', gap: 24 }}>
       
       {/* Header Banner */}
-      <div className="p-6 glass-panel-glow border border-slate-800 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-purple-950/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="glass-panel-glow" style={{
+        padding: '24px 30px',
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 20,
+        background: 'linear-gradient(135deg, rgba(14,20,34,0.95) 0%, rgba(88,28,135,0.3) 100%)'
+      }}>
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs uppercase font-extrabold tracking-wider px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+            <span className="brand-badge" style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc', borderColor: 'rgba(168, 85, 247, 0.3)' }}>
               Meeting Intelligence Studio
             </span>
-            <span className="text-xs text-slate-400">Autonomous Workflow Synthesis</span>
+            <span style={{ fontSize: 11, color: '#94a3b8' }}>Autonomous Workflow Synthesis</span>
           </div>
-          <h2 className="text-2xl font-extrabold text-white font-['Outfit']">Transcript to Decision Automation</h2>
-          <p className="text-sm text-slate-300 mt-1 max-w-xl">
+          <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#ffffff' }}>Transcript to Decision Automation</h2>
+          <p style={{ fontSize: 13, color: '#94a3b8', marginTop: 4, maxWidth: 640 }}>
             Automatically synthesize executive summaries, decisions, consensus scores, and actionable tasks directly from unstructured transcripts.
           </p>
         </div>
 
-        {/* Preset Selector */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Presets:</span>
+        {/* Presets */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#64748b' }}>Presets:</span>
           {presets.map((p, idx) => (
             <button
               key={idx}
@@ -96,7 +104,8 @@ export const MeetingStudioView: React.FC<MeetingStudioViewProps> = ({ onAddActio
                 setTitle(p.title);
                 setTranscript(p.text);
               }}
-              className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs text-slate-300 hover:text-white transition"
+              className="btn-secondary"
+              style={{ fontSize: 11.5, padding: '6px 12px' }}
             >
               {p.label}
             </button>
@@ -104,50 +113,72 @@ export const MeetingStudioView: React.FC<MeetingStudioViewProps> = ({ onAddActio
         </div>
       </div>
 
-      {/* Input Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Main Content: Left Editor & Right Results */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(320px, 400px) 1fr', gap: 24 }}>
         
-        {/* Left: Transcript Editor */}
-        <div className="lg:col-span-1 space-y-4">
-          <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-4">
+        {/* Left: Input */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div className="glass-panel" style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#94a3b8', marginBottom: 6 }}>
                 Meeting Title
               </label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-cyan-400"
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  borderRadius: 10,
+                  background: '#0d1322',
+                  border: '1px solid var(--border-subtle)',
+                  color: '#ffffff',
+                  fontSize: 12.5,
+                  outline: 'none'
+                }}
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#94a3b8', marginBottom: 6 }}>
                 Unstructured Transcript / Meeting Notes
               </label>
               <textarea
-                rows={12}
+                rows={13}
                 value={transcript}
                 onChange={(e) => setTranscript(e.target.value)}
                 placeholder="Paste verbatim transcript or audio transcription here..."
-                className="w-full p-3.5 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs font-mono leading-relaxed focus:outline-none focus:border-cyan-400 resize-none"
+                style={{
+                  width: '100%',
+                  padding: 14,
+                  borderRadius: 10,
+                  background: '#0d1322',
+                  border: '1px solid var(--border-subtle)',
+                  color: '#ffffff',
+                  fontSize: 12,
+                  fontFamily: 'var(--font-mono)',
+                  lineHeight: 1.6,
+                  outline: 'none',
+                  resize: 'none'
+                }}
               />
             </div>
 
             <button
               onClick={handleRunAnalysis}
               disabled={loading || !transcript.trim()}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-cyan-500/20 transition flex items-center justify-center gap-2 disabled:opacity-50"
+              className="btn-primary"
+              style={{ padding: '12px 20px', fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.04em' }}
             >
               {loading ? (
                 <>
-                  <Sparkles className="w-4 h-4 animate-spin" />
+                  <Sparkles style={{ width: 16, height: 16, animation: 'spin 1.5s linear infinite' }} />
                   <span>Synthesizing Intelligence...</span>
                 </>
               ) : (
                 <>
-                  <Play className="w-4 h-4 fill-white" />
+                  <Play style={{ width: 14, height: 14, fill: '#ffffff' }} />
                   <span>Run Meeting Intelligence Agent</span>
                 </>
               )}
@@ -155,56 +186,60 @@ export const MeetingStudioView: React.FC<MeetingStudioViewProps> = ({ onAddActio
           </div>
         </div>
 
-        {/* Right: Intelligence Results */}
-        <div className="lg:col-span-2 space-y-6">
+        {/* Right: Results */}
+        <div>
           {result ? (
-            <div className="space-y-6 animate-fadeIn">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               
               {/* Summary & Consensus Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {/* Consensus Meter */}
-                <div className="p-5 rounded-2xl glass-panel-glow border border-slate-800 flex flex-col justify-between">
-                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <Users className="w-3.5 h-3.5 text-cyan-400" /> Consensus Score
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 16 }}>
+                <div className="glass-panel-glow" style={{ padding: 20, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <Users style={{ width: 14, height: 14, color: '#00f2fe' }} /> Consensus Score
                   </span>
-                  <div className="my-2">
-                    <span className="text-3xl font-extrabold text-cyan-400 font-mono">
+                  <div style={{ margin: '10px 0' }}>
+                    <span style={{ fontSize: '2.2rem', fontWeight: 800, color: '#00f2fe', fontFamily: 'var(--font-mono)' }}>
                       {result.consensus_score}%
                     </span>
-                    <span className="block text-xs font-semibold text-emerald-400 mt-0.5">
+                    <span style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#10b981', marginTop: 2 }}>
                       {result.alignment_label}
                     </span>
                   </div>
-                  <span className="text-[10px] text-slate-500">Unanimous Board Resolution</span>
+                  <span style={{ fontSize: 11, color: '#64748b' }}>Unanimous Board Resolution</span>
                 </div>
 
-                {/* Executive TL;DR */}
-                <div className="sm:col-span-2 p-5 rounded-2xl glass-panel border border-slate-800 flex flex-col justify-between">
-                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 mb-2">
-                    <Sparkles className="w-3.5 h-3.5 text-purple-400" /> Executive TL;DR
+                <div className="glass-panel" style={{ padding: 20, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#c084fc', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+                    <Sparkles style={{ width: 14, height: 14 }} /> Executive TL;DR
                   </span>
-                  <p className="text-xs text-slate-200 leading-relaxed">
+                  <p style={{ fontSize: 13, color: '#e2e8f0', lineHeight: 1.6 }}>
                     {result.executive_summary}
                   </p>
-                  <span className="text-[10px] text-slate-500 mt-2">Processed in {result.latency_ms}ms</span>
+                  <span style={{ fontSize: 10, color: '#64748b', marginTop: 8 }}>Processed in {result.latency_ms}ms</span>
                 </div>
               </div>
 
               {/* Decisions Made vs Deferred */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Decisions Made */}
-                <div className="p-5 rounded-2xl glass-panel border border-slate-800 space-y-3">
-                  <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4" /> Decisions Made & Approved
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div className="glass-panel" style={{ padding: 20 }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 700, textTransform: 'uppercase', color: '#10b981', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+                    <CheckCircle2 style={{ width: 15, height: 15 }} /> Decisions Made & Approved
                   </span>
-                  <div className="space-y-2">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                     {result.decisions_made.map((d) => (
-                      <div key={d.id} className="p-3 rounded-xl bg-slate-900/80 border border-emerald-500/20 text-xs text-slate-200 space-y-1">
-                        <div className="flex items-center justify-between">
-                          <span className="px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 font-mono text-[10px] font-bold">
+                      <div key={d.id} style={{
+                        padding: 12,
+                        borderRadius: 10,
+                        background: 'rgba(16, 185, 129, 0.06)',
+                        border: '1px solid rgba(16, 185, 129, 0.2)',
+                        fontSize: 12,
+                        color: '#f8fafc'
+                      }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                          <span className="brand-badge" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#10b981', borderColor: 'rgba(16, 185, 129, 0.3)', fontSize: 9 }}>
                             {d.status}
                           </span>
-                          <span className="text-[10px] text-slate-400">Impact: {d.impact}</span>
+                          <span style={{ fontSize: 10, color: '#94a3b8' }}>Impact: {d.impact}</span>
                         </div>
                         <p>{d.decision}</p>
                       </div>
@@ -212,26 +247,40 @@ export const MeetingStudioView: React.FC<MeetingStudioViewProps> = ({ onAddActio
                   </div>
                 </div>
 
-                {/* Decisions Deferred & Tension */}
-                <div className="p-5 rounded-2xl glass-panel border border-slate-800 space-y-3">
-                  <span className="text-xs font-semibold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <AlertTriangle className="w-4 h-4" /> Deferred Decisions & Tension
+                <div className="glass-panel" style={{ padding: 20 }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 700, textTransform: 'uppercase', color: '#f59e0b', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+                    <AlertTriangle style={{ width: 15, height: 15 }} /> Deferred Decisions & Friction
                   </span>
-                  <div className="space-y-2">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                     {result.decisions_deferred.map((d) => (
-                      <div key={d.id} className="p-3 rounded-xl bg-slate-900/80 border border-amber-500/20 text-xs text-slate-200 space-y-1">
-                        <div className="flex items-center justify-between">
-                          <span className="px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 font-mono text-[10px] font-bold">
+                      <div key={d.id} style={{
+                        padding: 12,
+                        borderRadius: 10,
+                        background: 'rgba(245, 158, 11, 0.06)',
+                        border: '1px solid rgba(245, 158, 11, 0.2)',
+                        fontSize: 12,
+                        color: '#f8fafc'
+                      }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                          <span className="brand-badge" style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#f59e0b', borderColor: 'rgba(245, 158, 11, 0.3)', fontSize: 9 }}>
                             DEFERRED
                           </span>
-                          <span className="text-[10px] text-slate-400">{d.owner}</span>
+                          <span style={{ fontSize: 10, color: '#94a3b8' }}>{d.owner}</span>
                         </div>
-                        <p className="font-semibold">{d.decision}</p>
-                        <p className="text-[11px] text-slate-400">{d.reason}</p>
+                        <p style={{ fontWeight: 600 }}>{d.decision}</p>
+                        <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 2 }}>{d.reason}</p>
                       </div>
                     ))}
                     {result.tension_points.map((t, idx) => (
-                      <div key={idx} className="p-2.5 rounded-xl bg-slate-900/40 border border-slate-800 text-[11px] text-slate-400 italic">
+                      <div key={idx} style={{
+                        padding: 10,
+                        borderRadius: 8,
+                        background: 'rgba(14, 20, 32, 0.5)',
+                        border: '1px solid var(--border-subtle)',
+                        fontSize: 11,
+                        color: '#94a3b8',
+                        fontStyle: 'italic'
+                      }}>
                         • {t}
                       </div>
                     ))}
@@ -239,70 +288,91 @@ export const MeetingStudioView: React.FC<MeetingStudioViewProps> = ({ onAddActio
                 </div>
               </div>
 
-              {/* Action Items Generated */}
-              <div className="p-5 rounded-2xl glass-panel border border-slate-800 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <Clock className="w-4 h-4" /> Synthesized Action Items (Ready for Kanban)
+              {/* Action Items */}
+              <div className="glass-panel" style={{ padding: 20 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 700, textTransform: 'uppercase', color: '#00f2fe', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <Clock style={{ width: 15, height: 15 }} /> Synthesized Action Items ({result.action_items.length} tasks ready for Kanban)
                   </span>
-                  <span className="text-xs text-slate-400">{result.action_items.length} tasks extracted</span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
                   {result.action_items.map((act) => (
-                    <div
-                      key={act.id}
-                      className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-cyan-500/30 transition space-y-2"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                          act.priority === 'CRITICAL' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
-                          act.priority === 'HIGH' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
-                          'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
-                        }`}>
+                    <div key={act.id} className="extracted-action-card" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                        <span className="brand-badge" style={{
+                          background: act.priority === 'CRITICAL' ? 'rgba(244, 63, 94, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                          color: act.priority === 'CRITICAL' ? '#f43f5e' : '#f59e0b',
+                          borderColor: act.priority === 'CRITICAL' ? 'rgba(244, 63, 94, 0.3)' : 'rgba(245, 158, 11, 0.3)'
+                        }}>
                           {act.priority}
                         </span>
-                        <span className="text-[11px] text-slate-400 font-mono">{act.due_date}</span>
+                        <span style={{ fontSize: 11, color: '#94a3b8', fontFamily: 'var(--font-mono)' }}>{act.due_date}</span>
                       </div>
-                      <p className="text-xs font-semibold text-white leading-snug">{act.title}</p>
-                      <div className="text-[11px] text-slate-400 flex items-center justify-between">
+                      <p style={{ fontSize: 12.5, fontWeight: 700, color: '#ffffff' }}>{act.title}</p>
+                      <div style={{ fontSize: 11, color: '#94a3b8', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                         <span>{act.assignee}</span>
-                        <span className="text-slate-500 font-mono text-[10px]">{act.department}</span>
+                        <span style={{ fontFamily: 'var(--font-mono)', color: '#64748b' }}>{act.department}</span>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* 1-Click Executive Follow-up Email Draft */}
-              <div className="p-5 rounded-2xl glass-panel-glow border border-slate-800 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
-                    <Mail className="w-4 h-4" /> 1-Click Executive Follow-Up Broadcast
+              {/* 1-Click Executive Follow-up Broadcast */}
+              <div className="glass-panel-glow" style={{ padding: 20 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 700, textTransform: 'uppercase', color: '#c084fc', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <Mail style={{ width: 15, height: 15 }} /> 1-Click Executive Follow-Up Broadcast
                   </span>
-                  <button
-                    onClick={copyEmail}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 transition"
-                  >
-                    {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  <button onClick={copyEmail} className="btn-secondary" style={{ padding: '6px 14px' }}>
+                    {copiedEmail ? <Check style={{ width: 14, height: 14, color: '#10b981' }} /> : <Copy style={{ width: 14, height: 14 }} />}
                     <span>{copiedEmail ? 'Copied to Clipboard!' : 'Copy Email Digest'}</span>
                   </button>
                 </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800/80 font-mono text-xs text-slate-300 leading-relaxed whitespace-pre-wrap">
+                <div style={{
+                  padding: 16,
+                  borderRadius: 12,
+                  background: 'rgba(8, 12, 20, 0.8)',
+                  border: '1px solid var(--border-subtle)',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 12,
+                  color: '#cbd5e1',
+                  lineHeight: 1.6,
+                  whiteSpace: 'pre-wrap'
+                }}>
                   {result.executive_briefing}
                 </div>
               </div>
 
             </div>
           ) : (
-            /* Empty State */
-            <div className="h-full min-h-[420px] flex flex-col items-center justify-center p-8 glass-panel border border-slate-800/80 rounded-2xl text-center space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center">
-                <Sparkles className="w-6 h-6 animate-pulse" />
+            <div className="glass-panel" style={{
+              height: '100%',
+              minHeight: 450,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+              padding: 30
+            }}>
+              <div style={{
+                width: 52,
+                height: 52,
+                borderRadius: 16,
+                background: 'rgba(168, 85, 247, 0.12)',
+                color: '#c084fc',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: 16,
+                border: '1px solid rgba(168, 85, 247, 0.3)'
+              }}>
+                <Sparkles style={{ width: 26, height: 26 }} />
               </div>
-              <h3 className="text-base font-bold text-white">No Meeting Intelligence Generated Yet</h3>
-              <p className="text-xs text-slate-400 max-w-md">
+              <h3 style={{ fontSize: 17, fontWeight: 800, color: '#ffffff' }}>No Meeting Intelligence Generated Yet</h3>
+              <p style={{ fontSize: 13, color: '#94a3b8', maxWidth: 420, marginTop: 6, lineHeight: 1.6 }}>
                 Select one of the presets on the left or paste your own meeting transcript, then click <strong>"Run Meeting Intelligence Agent"</strong> to extract consensus, decisions, and tasks.
               </p>
             </div>

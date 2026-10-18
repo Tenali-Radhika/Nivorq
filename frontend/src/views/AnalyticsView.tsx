@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BarChart3, Clock, DollarSign, ShieldCheck, Database, Server, RefreshCw, Cpu, Activity } from 'lucide-react';
+import { BarChart3, Clock, DollarSign, ShieldCheck, Database, Server, RefreshCw, Activity } from 'lucide-react';
 import { AnalyticsData } from '../types';
 import { api } from '../api';
 
@@ -26,168 +26,157 @@ export const AnalyticsView: React.FC = () => {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-6 space-y-6">
+    <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 24px', display: 'flex', flexDirection: 'column', gap: 24 }}>
       
       {/* Top Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 glass-panel-glow border border-slate-800 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-emerald-950/30">
+      <div className="glass-panel-glow" style={{
+        padding: '24px 30px',
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 20,
+        background: 'linear-gradient(135deg, rgba(14,20,34,0.95) 0%, rgba(6,78,59,0.3) 100%)'
+      }}>
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs uppercase font-extrabold tracking-wider px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+            <span className="brand-badge" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#10b981', borderColor: 'rgba(16, 185, 129, 0.3)' }}>
               Google BigQuery Telemetry
             </span>
-            <span className="text-xs text-slate-400">Enterprise Productivity & ROI Audit</span>
+            <span style={{ fontSize: 11, color: '#94a3b8' }}>Enterprise Productivity & ROI Audit</span>
           </div>
-          <h2 className="text-2xl font-extrabold text-white font-['Outfit']">Productivity Impact & Telemetry</h2>
-          <p className="text-sm text-slate-300 mt-1 max-w-xl">
+          <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#ffffff' }}>Productivity Impact & Telemetry</h2>
+          <p style={{ fontSize: 13, color: '#94a3b8', marginTop: 4, maxWidth: 640 }}>
             Real-time verification of hours saved, factual ground-truth fidelity, model token efficiency, and SOC-2 audit compliance.
           </p>
         </div>
 
-        <button
-          onClick={fetchMetrics}
-          disabled={loading}
-          className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 transition"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-cyan-400' : ''}`} />
+        <button onClick={fetchMetrics} disabled={loading} className="btn-secondary">
+          <RefreshCw style={{ width: 14, height: 14, animation: loading ? 'spin 1s linear infinite' : 'none' }} />
           <span>Refresh Telemetry</span>
         </button>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        
-        {/* Hours Saved */}
-        <div className="p-5 rounded-2xl glass-panel-glow border border-slate-800 space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Cognitive Hours Saved</span>
-            <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-              <Clock className="w-4 h-4" />
-            </div>
+      <div className="kpi-grid">
+        <div className="kpi-card glass-panel-glow">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#94a3b8' }}>Cognitive Hours Saved</span>
+            <Clock style={{ width: 18, height: 18, color: '#00f2fe' }} />
           </div>
-          <div className="text-3xl font-extrabold text-white font-mono">
-            {data ? data.total_hours_saved : '523.6'} <span className="text-sm text-cyan-400 font-sans">hrs</span>
+          <div className="kpi-val" style={{ color: '#00f2fe' }}>
+            {data ? data.total_hours_saved : '523.6'} <span style={{ fontSize: 14, color: '#94a3b8' }}>hrs</span>
           </div>
-          <span className="text-[11px] text-emerald-400 font-semibold block">+28% reduction in manual doc search</span>
+          <span style={{ fontSize: 11, color: '#10b981', fontWeight: 700 }}>+28% reduction in manual doc search</span>
         </div>
 
-        {/* Total Queries */}
-        <div className="p-5 rounded-2xl glass-panel border border-slate-800 space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Enterprise Inquiries</span>
-            <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20">
-              <Activity className="w-4 h-4" />
-            </div>
+        <div className="kpi-card">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#94a3b8' }}>Enterprise Inquiries</span>
+            <Activity style={{ width: 18, height: 18, color: '#38bdf8' }} />
           </div>
-          <div className="text-3xl font-extrabold text-white font-mono">
+          <div className="kpi-val">
             {data ? data.total_queries.toLocaleString() : '1,428'}
           </div>
-          <span className="text-[11px] text-slate-400 block">Across 5 Department Divisions</span>
+          <span style={{ fontSize: 11, color: '#64748b' }}>Across 5 Department Divisions</span>
         </div>
 
-        {/* Grounding Fidelity */}
-        <div className="p-5 rounded-2xl glass-panel border border-slate-800 space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Grounding Fidelity</span>
-            <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <ShieldCheck className="w-4 h-4" />
-            </div>
+        <div className="kpi-card">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#94a3b8' }}>Grounding Fidelity</span>
+            <ShieldCheck style={{ width: 18, height: 18, color: '#10b981' }} />
           </div>
-          <div className="text-3xl font-extrabold text-emerald-400 font-mono">
+          <div className="kpi-val" style={{ color: '#10b981' }}>
             {data ? data.grounding_fidelity : '99.4'}%
           </div>
-          <span className="text-[11px] text-slate-400 block">Verified by Critic Agent</span>
+          <span style={{ fontSize: 11, color: '#64748b' }}>Verified by Critic Agent</span>
         </div>
 
-        {/* Cost Savings */}
-        <div className="p-5 rounded-2xl glass-panel border border-slate-800 space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Projected Annual ROI</span>
-            <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20">
-              <DollarSign className="w-4 h-4" />
-            </div>
+        <div className="kpi-card">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#94a3b8' }}>Projected Annual ROI</span>
+            <DollarSign style={{ width: 18, height: 18, color: '#c084fc' }} />
           </div>
-          <div className="text-3xl font-extrabold text-purple-300 font-mono">
+          <div className="kpi-val" style={{ color: '#c084fc' }}>
             ${data ? data.cost_savings_usd.toLocaleString() : '184,500'}
           </div>
-          <span className="text-[11px] text-purple-400 block">Cloud Run Serverless efficiency</span>
+          <span style={{ fontSize: 11, color: '#a855f7' }}>Cloud Run Serverless efficiency</span>
         </div>
-
       </div>
 
-      {/* Cloud Run & BigQuery Telemetry Diagram */}
-      <div className="p-6 rounded-2xl glass-panel border border-slate-800 space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Database className="w-4 h-4 text-cyan-400" />
-            <h3 className="text-sm font-bold text-white font-['Outfit']">End-to-End Google Cloud Agent Telemetry Pipeline</h3>
+      {/* Pipeline Diagram */}
+      <div className="glass-panel" style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Database style={{ width: 16, height: 16, color: '#00f2fe' }} />
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: '#ffffff' }}>End-to-End Google Cloud Agent Telemetry Pipeline</h3>
           </div>
-          <span className="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            STREAMING ACTIVE
+          <span style={{ fontSize: 11, color: '#10b981', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
+            ● STREAMING ACTIVE
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs font-mono">
-          <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
-            <span className="text-slate-400 font-bold block text-[10px] uppercase">Stage 1: Ingestion</span>
-            <p className="text-cyan-300 font-semibold">Document AI & PDF Chunker</p>
-            <p className="text-slate-500 text-[11px]">text-embedding-004 (768-dim)</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
+          <div style={{ padding: 14, borderRadius: 12, background: 'rgba(10,15,26,0.8)', border: '1px solid var(--border-subtle)' }}>
+            <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#64748b', display: 'block' }}>Stage 1: Ingestion</span>
+            <p style={{ fontSize: 12.5, fontWeight: 700, color: '#00f2fe', marginTop: 2 }}>Document AI & Chunker</p>
+            <p style={{ fontSize: 11, color: '#94a3b8', fontFamily: 'var(--font-mono)' }}>text-embedding-004 (768-dim)</p>
           </div>
-          <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
-            <span className="text-slate-400 font-bold block text-[10px] uppercase">Stage 2: Orchestration</span>
-            <p className="text-cyan-300 font-semibold">ADK Supervisor Agent</p>
-            <p className="text-slate-500 text-[11px]">Gemini 3.8 Flash (P95 &lt; 640ms)</p>
+          <div style={{ padding: 14, borderRadius: 12, background: 'rgba(10,15,26,0.8)', border: '1px solid var(--border-subtle)' }}>
+            <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#64748b', display: 'block' }}>Stage 2: Orchestration</span>
+            <p style={{ fontSize: 12.5, fontWeight: 700, color: '#00f2fe', marginTop: 2 }}>ADK Supervisor Agent</p>
+            <p style={{ fontSize: 11, color: '#94a3b8', fontFamily: 'var(--font-mono)' }}>Gemini 3.8 Flash (P95 &lt; 640ms)</p>
           </div>
-          <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
-            <span className="text-slate-400 font-bold block text-[10px] uppercase">Stage 3: Grounding</span>
-            <p className="text-cyan-300 font-semibold">Verification Critic</p>
-            <p className="text-slate-500 text-[11px]">99.4% factual ground-truth</p>
+          <div style={{ padding: 14, borderRadius: 12, background: 'rgba(10,15,26,0.8)', border: '1px solid var(--border-subtle)' }}>
+            <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#64748b', display: 'block' }}>Stage 3: Grounding</span>
+            <p style={{ fontSize: 12.5, fontWeight: 700, color: '#00f2fe', marginTop: 2 }}>Verification Critic</p>
+            <p style={{ fontSize: 11, color: '#94a3b8', fontFamily: 'var(--font-mono)' }}>99.4% factual ground-truth</p>
           </div>
-          <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
-            <span className="text-slate-400 font-bold block text-[10px] uppercase">Stage 4: Compliance</span>
-            <p className="text-cyan-300 font-semibold">Google BigQuery Sink</p>
-            <p className="text-slate-500 text-[11px]">365-day partitioned retention</p>
+          <div style={{ padding: 14, borderRadius: 12, background: 'rgba(10,15,26,0.8)', border: '1px solid var(--border-subtle)' }}>
+            <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#64748b', display: 'block' }}>Stage 4: Compliance</span>
+            <p style={{ fontSize: 12.5, fontWeight: 700, color: '#00f2fe', marginTop: 2 }}>Google BigQuery Sink</p>
+            <p style={{ fontSize: 11, color: '#94a3b8', fontFamily: 'var(--font-mono)' }}>365-day partitioned retention</p>
           </div>
         </div>
       </div>
 
-      {/* Audit Log Table */}
-      <div className="glass-panel rounded-2xl border border-slate-800 overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-800 bg-slate-900/60 flex items-center justify-between">
+      {/* Audit Table */}
+      <div className="glass-panel" style={{ overflow: 'hidden' }}>
+        <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--border-subtle)', background: 'rgba(14,20,32,0.6)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <h3 className="text-sm font-bold text-white font-['Outfit']">BigQuery Cryptographic Audit Trail</h3>
-            <p className="text-xs text-slate-400">SOC-2 Type II and Singapore PDPA compliant inference ledger</p>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: '#ffffff' }}>BigQuery Cryptographic Audit Trail</h3>
+            <p style={{ fontSize: 11, color: '#94a3b8' }}>SOC-2 Type II and Singapore PDPA compliant inference ledger</p>
           </div>
-          <span className="text-xs text-slate-400 font-mono">Dataset: nivorq_telemetry_prod</span>
+          <span style={{ fontSize: 11, color: '#64748b', fontFamily: 'var(--font-mono)' }}>Dataset: nivorq_telemetry_prod</span>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs font-mono">
-            <thead className="bg-slate-950/80 text-slate-400 border-b border-slate-800 text-[11px]">
+        <div style={{ overflowX: 'auto' }}>
+          <table className="audit-table">
+            <thead>
               <tr>
-                <th className="py-3 px-4">Log ID</th>
-                <th className="py-3 px-4">Timestamp (UTC)</th>
-                <th className="py-3 px-4">User</th>
-                <th className="py-3 px-4">Category</th>
-                <th className="py-3 px-4">Model</th>
-                <th className="py-3 px-4">Latency</th>
-                <th className="py-3 px-4">Grounding</th>
-                <th className="py-3 px-4">Audit Status</th>
+                <th>Log ID</th>
+                <th>Timestamp (UTC)</th>
+                <th>User</th>
+                <th>Category</th>
+                <th>Model</th>
+                <th>Latency</th>
+                <th>Grounding</th>
+                <th>Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/80 text-slate-300">
+            <tbody>
               {data && data.recent_logs ? (
                 data.recent_logs.map((log) => (
-                  <tr key={log.id} className="hover:bg-slate-900/40 transition">
-                    <td className="py-3 px-4 text-cyan-400">{log.id}</td>
-                    <td className="py-3 px-4 text-slate-400">{log.timestamp}</td>
-                    <td className="py-3 px-4 truncate max-w-[180px]">{log.user}</td>
-                    <td className="py-3 px-4 font-sans font-medium text-slate-200">{log.category}</td>
-                    <td className="py-3 px-4 text-cyan-300">{log.model}</td>
-                    <td className="py-3 px-4">{log.latency_ms}ms</td>
-                    <td className="py-3 px-4 text-emerald-400 font-bold">{log.confidence}</td>
-                    <td className="py-3 px-4">
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-bold border border-emerald-500/20">
+                  <tr key={log.id}>
+                    <td style={{ color: '#00f2fe' }}>{log.id}</td>
+                    <td style={{ color: '#64748b' }}>{log.timestamp}</td>
+                    <td>{log.user}</td>
+                    <td style={{ color: '#e2e8f0', fontFamily: 'var(--font-body)', fontWeight: 600 }}>{log.category}</td>
+                    <td style={{ color: '#38bdf8' }}>{log.model}</td>
+                    <td>{log.latency_ms}ms</td>
+                    <td style={{ color: '#10b981', fontWeight: 700 }}>{log.confidence}</td>
+                    <td>
+                      <span className="brand-badge" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#10b981', borderColor: 'rgba(16, 185, 129, 0.3)', fontSize: 9 }}>
                         {log.status}
                       </span>
                     </td>
@@ -195,7 +184,7 @@ export const AnalyticsView: React.FC = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={8} className="py-8 text-center text-slate-500">
+                  <td colSpan={8} style={{ textAlign: 'center', padding: 30, color: '#64748b' }}>
                     Loading telemetry audit records...
                   </td>
                 </tr>

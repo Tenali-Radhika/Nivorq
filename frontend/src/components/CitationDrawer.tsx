@@ -12,90 +12,165 @@ export const CitationDrawer: React.FC<CitationDrawerProps> = ({ citation, onClos
   if (!citation) return null;
 
   return (
-    <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-[480px] bg-slate-950/95 border-l border-slate-800 shadow-2xl backdrop-blur-xl flex flex-col animate-slideLeft">
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      bottom: 0,
+      right: 0,
+      width: '100%',
+      maxWidth: 480,
+      backgroundColor: '#0a0f1c',
+      borderLeft: '1px solid rgba(0, 242, 254, 0.25)',
+      boxShadow: '-10px 0 40px rgba(0, 0, 0, 0.7)',
+      zIndex: 100,
+      display: 'flex',
+      flexDirection: 'column',
+      backdropFilter: 'blur(20px)'
+    }}>
       
       {/* Header */}
-      <div className="flex items-center justify-between p-5 border-b border-slate-800/80 bg-slate-900/60">
-        <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-            <FileText className="w-5 h-5" />
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '18px 24px',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+        background: 'rgba(14, 20, 32, 0.8)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{
+            width: 36,
+            height: 36,
+            borderRadius: 10,
+            background: 'rgba(0, 242, 254, 0.12)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#00f2fe',
+            border: '1px solid rgba(0, 242, 254, 0.3)'
+          }}>
+            <FileText style={{ width: 18, height: 18 }} />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
-                {citation.category}
-              </span>
-              <span className="text-xs text-slate-400">Page {citation.page_number}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span className="brand-badge" style={{ fontSize: 10 }}>{citation.category}</span>
+              <span style={{ fontSize: 11, color: '#94a3b8' }}>Page {citation.page_number}</span>
             </div>
-            <h3 className="text-sm font-bold text-white mt-1 line-clamp-1">{citation.doc_title}</h3>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', marginTop: 2, maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {citation.doc_title}
+            </h3>
           </div>
         </div>
-        <button onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">
-          <X className="w-5 h-5" />
+        <button
+          onClick={onClose}
+          style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 4 }}
+        >
+          <X style={{ width: 20, height: 20 }} />
         </button>
       </div>
 
-      {/* Content Body */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      {/* Body */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: 24, display: 'flex', flexDirection: 'column', gap: 20 }}>
         
-        {/* Verification Status Metric */}
-        <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+        {/* Verification Status */}
+        <div style={{
+          padding: 16,
+          borderRadius: 12,
+          background: 'rgba(16, 185, 129, 0.08)',
+          border: '1px solid rgba(16, 185, 129, 0.25)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <CheckCircle2 style={{ width: 22, height: 22, color: '#10b981' }} />
             <div>
-              <p className="text-xs font-bold text-white">Factual Grounding Match</p>
-              <p className="text-[11px] text-slate-400">Verified by Critic Agent</p>
+              <p style={{ fontSize: 12.5, fontWeight: 700, color: '#ffffff' }}>Factual Grounding Match</p>
+              <p style={{ fontSize: 11, color: '#94a3b8' }}>Verified by Critic Agent</p>
             </div>
           </div>
-          <div className="text-right">
-            <span className="text-lg font-extrabold text-emerald-400 font-mono">
+          <div style={{ textAlign: 'right' }}>
+            <span style={{ fontSize: 20, fontWeight: 800, color: '#10b981', fontFamily: 'var(--font-mono)' }}>
               {Math.round(citation.confidence * 100)}%
             </span>
-            <span className="block text-[10px] text-slate-500">Vector Sim: {citation.score}</span>
+            <span style={{ display: 'block', fontSize: 10, color: '#64748b' }}>Sim: {citation.score}</span>
           </div>
         </div>
 
-        {/* Primary Grounded Excerpt */}
+        {/* Exact Grounding Excerpt */}
         <div>
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-              <Bookmark className="w-3.5 h-3.5 text-cyan-400" /> Exact Grounding Excerpt
-            </span>
-          </div>
-          <div className="p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/30 text-cyan-100 text-xs leading-relaxed font-mono">
+          <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+            <Bookmark style={{ width: 14, height: 14, color: '#00f2fe' }} /> Exact Grounding Excerpt
+          </span>
+          <div style={{
+            padding: 16,
+            borderRadius: 12,
+            background: 'rgba(0, 242, 254, 0.05)',
+            border: '1px solid rgba(0, 242, 254, 0.28)',
+            color: '#e0f2fe',
+            fontSize: 12.5,
+            lineHeight: 1.6,
+            fontFamily: 'var(--font-mono)'
+          }}>
             "{citation.excerpt || citation.content.slice(0, 200)}"
           </div>
         </div>
 
-        {/* Full Chunk Context */}
+        {/* Complete Chunk Context */}
         <div>
-          <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-2">
+          <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#94a3b8', display: 'block', marginBottom: 8 }}>
             Complete Retrieved Chunk Context
           </span>
-          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-slate-300 text-xs leading-relaxed whitespace-pre-wrap">
+          <div style={{
+            padding: 16,
+            borderRadius: 12,
+            background: 'rgba(14, 20, 32, 0.8)',
+            border: '1px solid var(--border-subtle)',
+            color: '#cbd5e1',
+            fontSize: 12.5,
+            lineHeight: 1.6,
+            whiteSpace: 'pre-wrap'
+          }}>
             {citation.content}
           </div>
         </div>
 
         {/* Chunk Metadata */}
-        <div className="p-3.5 rounded-xl bg-slate-900/40 border border-slate-800/80 text-[11px] text-slate-400 space-y-1.5 font-mono">
-          <div><strong className="text-slate-300">Chunk ID:</strong> {citation.chunk_id}</div>
-          <div><strong className="text-slate-300">Document ID:</strong> {citation.doc_id}</div>
-          <div><strong className="text-slate-300">Vector Dimension:</strong> 768 (text-embedding-004)</div>
+        <div style={{
+          padding: 14,
+          borderRadius: 12,
+          background: 'rgba(10, 15, 26, 0.6)',
+          border: '1px solid rgba(255, 255, 255, 0.06)',
+          fontSize: 11,
+          fontFamily: 'var(--font-mono)',
+          color: '#94a3b8',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 6
+        }}>
+          <div><strong style={{ color: '#ffffff' }}>Chunk ID:</strong> {citation.chunk_id}</div>
+          <div><strong style={{ color: '#ffffff' }}>Document ID:</strong> {citation.doc_id}</div>
+          <div><strong style={{ color: '#ffffff' }}>Vector Dimension:</strong> 768 (text-embedding-004)</div>
         </div>
 
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-slate-800 bg-slate-900/40 flex justify-end">
+      <div style={{
+        padding: '16px 24px',
+        borderTop: '1px solid var(--border-subtle)',
+        background: 'rgba(14, 20, 32, 0.6)',
+        display: 'flex',
+        justifyContent: 'flex-end'
+      }}>
         <button
           onClick={() => {
             onViewDocument(citation.doc_id);
             onClose();
           }}
-          className="flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
+          className="btn-secondary"
         >
-          <ExternalLink className="w-3.5 h-3.5" />
+          <ExternalLink style={{ width: 14, height: 14 }} />
           <span>View In Document Hub</span>
         </button>
       </div>
