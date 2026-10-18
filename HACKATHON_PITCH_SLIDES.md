@@ -6,7 +6,7 @@
 ### Slide 1: Title & Vision
 - **Title**: NIVORQ — The Enterprise Autonomous Intelligence & Productivity Copilot
 - **Subtitle**: Transforming how global organizations access knowledge, make decisions, and automate work.
-- **Presenter**: Team Nivorq (Working Professionals Track)
+- **Presenter**: Tenali Radhika, Team Lotus (Working Professionals Track)
 - **Tagline**: From Siloed Documents to Actionable Enterprise Decisions in Sub-Seconds.
 
 ---

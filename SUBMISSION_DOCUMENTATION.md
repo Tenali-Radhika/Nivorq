@@ -1,6 +1,7 @@
 # NIVORQ: Enterprise Autonomous Intelligence & Productivity Copilot
 ## AI Builder Cup 2026 — Track: Future of Work & Enterprise Productivity
 **Submission Date**: October 18, 2026  
+**Team**: Team Lotus (Lead: Tenali Radhika, Working Professionals Track)  
 **Grand Finale Target**: Singapore (December 4, 2026)  
 **Target Platform**: Google Cloud Run & Vertex AI  
 
