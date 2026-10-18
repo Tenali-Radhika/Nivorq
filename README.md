@@ -1,11 +1,13 @@
 # ⚡ NIVORQ — Enterprise Autonomous Intelligence & Productivity Copilot
 ### 🏆 AI Builder Cup 2026 Submission | Track: Future of Work & Enterprise Productivity
 
-[![Google Cloud Run](https://img.shields.io/badge/Google_Cloud_Run-Serverless-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com/run)
+[![Google Cloud Run](https://img.shields.io/badge/Google_Cloud_Run-Live_Deployment-4285F4?logo=googlecloud&logoColor=white)](https://nivorq-service-315785817639.asia-southeast1.run.app)
 [![Vertex AI](https://img.shields.io/badge/Vertex_AI-Agent_Engine-34A853?logo=googlecloud&logoColor=white)](https://cloud.google.com/vertex-ai)
 [![Gemini API](https://img.shields.io/badge/Gemini_3.8_Flash-Sub--Second_Agents-1A73E8?logo=googlegemini&logoColor=white)](https://deepmind.google/technologies/gemini/)
 [![Google BigQuery](https://img.shields.io/badge/BigQuery-Audit_Telemetry-669DF6?logo=googlecloud&logoColor=white)](https://cloud.google.com/bigquery)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
+> 🌐 **Live Cloud Run Production URL**: [https://nivorq-service-315785817639.asia-southeast1.run.app](https://nivorq-service-315785817639.asia-southeast1.run.app)
 
 ---
 
